@@ -9,9 +9,11 @@ import {
 import { Router } from "express";
 import { ListTasksController } from "../../../../domain/task/controller/list-tasks-controller";
 import { UpdateTaskController } from "../../../../domain/task/controller/update-task-controller";
+import { verifyAuth } from "@infra/express/middlewares";
 
 const taskRoutes = Router();
 
+taskRoutes.use(verifyAuth);
 taskRoutes.post("/", CreateTaskValidator, CreateTaskController.handle);
 taskRoutes.get("/", ListTasksController.handle);
 taskRoutes.get("/:id", GetTaskValidator, GetTaskController.handle);
