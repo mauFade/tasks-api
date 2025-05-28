@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { authenticateFactory } from "../factory/authenticate-factory";
 
 export class AuthenticateController {
-  public async handle(request: Request, response: Response): Promise<Response> {
+  static async handle(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
 
     const authenticateService = authenticateFactory();
