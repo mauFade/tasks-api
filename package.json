@@ -6,6 +6,7 @@
   "author": "Mauricio Cardoso <mauricio.cds00@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "celebrate": "^15.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
