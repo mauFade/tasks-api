@@ -5,12 +5,16 @@ export class User {
   private name: string;
   private email: string;
   private password: string;
+  private createdAt: Date;
+  private updatedAt: Date;
 
   private constructor(data: UserConstructorDTO) {
     this.id = data.id;
     this.name = data.name;
     this.email = data.email;
     this.password = data.password;
+    this.createdAt = data.createdAt;
+    this.updatedAt = data.updatedAt;
   }
 
   public static newUser(data: UserConstructorDTO): User {
@@ -31,6 +35,14 @@ export class User {
 
   public getPassword(): string {
     return this.password;
+  }
+
+  public getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): Date {
+    return this.updatedAt;
   }
 }
 
