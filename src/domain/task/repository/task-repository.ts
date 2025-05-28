@@ -1,21 +1,17 @@
 import { CreateTaskResponseDTO, ITask } from "../dto";
 import { ITaskRepository, Task } from "../model/task-repository-interface";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../infra/prisma";
 import { randomUUID } from "crypto";
 
 export class TaskRepository implements ITaskRepository {
-  private prisma: PrismaClient;
-
-  private constructor() {
-    this.prisma = new PrismaClient();
-  }
+  private constructor() {}
 
   public static getInstance(): TaskRepository {
     return new TaskRepository();
   }
 
   public async findById(id: string): Promise<Task | undefined> {
-    const task = await this.prisma.task.findUnique({
+    const task = await prisma.task.findUnique({
       where: { id },
     });
 
@@ -24,7 +20,7 @@ export class TaskRepository implements ITaskRepository {
     return Task.newTask({
       id: task.id,
       title: task.title,
-      description: task.description,
+      description: task.description || undefined,
       status: task.status,
       dueDate: task.dueDate,
       userId: task.userId,
@@ -34,15 +30,15 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async findByUserId(userId: string): Promise<Task[]> {
-    const tasks = await this.prisma.task.findMany({
+    const tasks = await prisma.task.findMany({
       where: { userId },
     });
 
-    return tasks.map((task: any) =>
+    return tasks.map((task) =>
       Task.newTask({
         id: task.id,
         title: task.title,
-        description: task.description,
+        description: task.description || undefined,
         status: task.status,
         dueDate: task.dueDate,
         userId: task.userId,
@@ -53,7 +49,7 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async create(data: ITask): Promise<CreateTaskResponseDTO> {
-    const task = await this.prisma.task.create({
+    const task = await prisma.task.create({
       data: {
         id: randomUUID(),
         title: data.title,
@@ -69,7 +65,7 @@ export class TaskRepository implements ITaskRepository {
     return {
       id: task.id,
       title: task.title,
-      description: task.description,
+      description: task.description || null,
       status: task.status,
       dueDate: task.dueDate,
       userId: task.userId,
@@ -79,7 +75,7 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async update(id: string, data: Partial<ITask>): Promise<Task> {
-    const task = await this.prisma.task.update({
+    const task = await prisma.task.update({
       where: { id },
       data: {
         ...data,
@@ -90,7 +86,7 @@ export class TaskRepository implements ITaskRepository {
     return Task.newTask({
       id: task.id,
       title: task.title,
-      description: task.description,
+      description: task.description || undefined,
       status: task.status,
       dueDate: task.dueDate,
       userId: task.userId,
@@ -100,7 +96,7 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    await this.prisma.task.delete({
+    await prisma.task.delete({
       where: { id },
     });
   }

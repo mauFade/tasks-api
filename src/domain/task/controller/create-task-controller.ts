@@ -12,7 +12,7 @@ export class CreateTaskController {
       title,
       description,
       status,
-      dueDate: new Date(dueDate),
+      dueDate: dueDate ? new Date(dueDate) : new Date(),
       userId,
     });
 

@@ -5,7 +5,7 @@ export const CreateTaskValidator = celebrate({
     title: Joi.string().required(),
     description: Joi.string().optional(),
     status: Joi.string().required(),
-    dueDate: Joi.date().required(),
+    dueDate: Joi.date().optional(),
   }),
 });
 

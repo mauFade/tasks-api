@@ -1,21 +1,17 @@
 import { CreateUserResponseDTO, IUser } from "../dto";
 import { IUserRepository, User } from "../model/user-repository-interface";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../infra/prisma";
 import { randomUUID } from "crypto";
 
 export class UserRepository implements IUserRepository {
-  private prisma: PrismaClient;
-
-  private constructor() {
-    this.prisma = new PrismaClient();
-  }
+  private constructor() {}
 
   public static getInstance(): UserRepository {
     return new UserRepository();
   }
 
   public async findById(id: string): Promise<User | undefined> {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id },
     });
 
@@ -32,7 +28,7 @@ export class UserRepository implements IUserRepository {
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email },
     });
 
@@ -49,7 +45,7 @@ export class UserRepository implements IUserRepository {
   }
 
   public async create(data: IUser): Promise<CreateUserResponseDTO> {
-    const user = await this.prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         id: randomUUID(),
         name: data.name,

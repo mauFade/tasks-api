@@ -9,7 +9,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect -T src/infra/cmd/index.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.8.2",
+    "@prisma/client": "6.8.2",
     "bcryptjs": "^3.0.2",
     "celebrate": "^15.0.3",
     "cors": "^2.8.5",
