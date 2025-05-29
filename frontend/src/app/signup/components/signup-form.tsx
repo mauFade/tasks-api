@@ -25,6 +25,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/api/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -35,6 +39,8 @@ const signupSchema = z.object({
 type SignupFormData = z.infer<typeof signupSchema>;
 
 export function SignupForm() {
+  const router = useRouter();
+
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -44,8 +50,19 @@ export function SignupForm() {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationFn: (data: SignupFormData) => api.signup(data),
+    onSuccess: () => {
+      toast.success("Conta criada com sucesso");
+      router.push("/dashboard");
+    },
+    onError: () => {
+      toast.error("Erro ao criar conta");
+    },
+  });
+
   const onSubmit = (data: SignupFormData) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -126,7 +143,7 @@ export function SignupForm() {
           </CardContent>
           <CardFooter>
             <Button
-              className="w-full font-medium group"
+              className="w-full font-medium group hover:cursor-pointer"
               type="submit"
               size="lg"
             >
