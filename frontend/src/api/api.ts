@@ -1,13 +1,18 @@
-import axios from "axios";
-import { getCookie } from "cookies-next/client";
+import axios, { AxiosInstance } from "axios";
+import { getCookie } from "cookies-next";
 
 class Api {
-  private baseUrl: string;
+  private axios: AxiosInstance;
 
   constructor() {
-    this.baseUrl = "http://localhost:8081";
+    this.axios = axios.create({
+      baseURL: "http://localhost:8081",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
 
-    axios.interceptors.request.use((config) => {
+    this.axios.interceptors.request.use((config) => {
       const token = getCookie("token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -26,7 +31,7 @@ class Api {
     name: string;
     token: string;
   }> {
-    const response = await axios.post(`${this.baseUrl}/users`, data);
+    const response = await this.axios.post(`/users`, data);
     return response.data;
   }
 
@@ -35,10 +40,7 @@ class Api {
     name: string;
     token: string;
   }> {
-    const response = await axios.post(
-      `${this.baseUrl}/users/authenticate`,
-      data
-    );
+    const response = await this.axios.post(`/users/authenticate`, data);
     return response.data;
   }
 
@@ -56,7 +58,7 @@ class Api {
     createdAt: string;
     updatedAt: string;
   }> {
-    const response = await axios.post(`${this.baseUrl}/tasks`, data);
+    const response = await this.axios.post(`/tasks`, data);
     return response.data;
   }
 
@@ -72,7 +74,8 @@ class Api {
       updatedAt: string;
     }[]
   > {
-    const response = await axios.get(`${this.baseUrl}/tasks`);
+    const response = await this.axios.get(`/tasks`);
+
     return response.data;
   }
 
@@ -86,7 +89,7 @@ class Api {
     createdAt: string;
     updatedAt: string;
   }> {
-    const response = await axios.get(`${this.baseUrl}/tasks/${id}`);
+    const response = await this.axios.get(`/tasks/${id}`);
     return response.data;
   }
 
@@ -105,7 +108,7 @@ class Api {
     createdAt: string;
     updatedAt: string;
   }> {
-    const response = await axios.put(`${this.baseUrl}/tasks/${data.id}`, {
+    const response = await this.axios.put(`/tasks/${data.id}`, {
       title: data.title,
       description: data.description,
       status: data.status,
@@ -115,7 +118,7 @@ class Api {
   }
 
   public async deleteTask(id: string): Promise<void> {
-    await axios.delete(`${this.baseUrl}/tasks/${id}`);
+    await this.axios.delete(`/tasks/${id}`);
   }
 }
 
