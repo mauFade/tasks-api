@@ -14,7 +14,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
       <div className="relative flex-1 max-w-sm">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search tasks..."
+          placeholder="Buscar tarefas..."
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className="pl-8"

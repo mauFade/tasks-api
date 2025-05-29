@@ -17,7 +17,9 @@ export function TaskStats({ stats }: TaskStatsProps) {
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Total de Tarefas
+          </CardTitle>
           <Calendar className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -26,7 +28,7 @@ export function TaskStats({ stats }: TaskStatsProps) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">To Do</CardTitle>
+          <CardTitle className="text-sm font-medium">A Fazer</CardTitle>
           <Clock className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -35,7 +37,7 @@ export function TaskStats({ stats }: TaskStatsProps) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">In Progress</CardTitle>
+          <CardTitle className="text-sm font-medium">Em Progresso</CardTitle>
           <User className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -44,7 +46,7 @@ export function TaskStats({ stats }: TaskStatsProps) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Completed</CardTitle>
+          <CardTitle className="text-sm font-medium">Concluídas</CardTitle>
           <Calendar className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>

@@ -46,18 +46,18 @@ type TaskTableProps = {
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "todo":
-      return <Badge variant="secondary">To Do</Badge>;
+      return <Badge variant="secondary">A Fazer</Badge>;
     case "in-progress":
-      return <Badge variant="default">In Progress</Badge>;
+      return <Badge variant="default">Em Progresso</Badge>;
     case "completed":
-      return <Badge variant="outline">Completed</Badge>;
+      return <Badge variant="outline">Concluído</Badge>;
     default:
       return <Badge variant="secondary">{status}</Badge>;
   }
 };
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString("en-US", {
+  return new Date(dateString).toLocaleDateString("pt-BR", {
     year: "numeric",
     month: "short",
     day: "numeric",
@@ -73,33 +73,28 @@ export function TaskTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tasks</CardTitle>
+        <CardTitle>Tarefas</CardTitle>
         <CardDescription>
-          A list of all your tasks with their current status and details.
+          Lista de todas as suas tarefas com seus status e detalhes atuais.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* {isLoading ? (
-          <div className="flex items-center justify-center h-32">
-            <div className="text-muted-foreground">Loading tasks...</div>
-          </div>
-        ) : ( */}
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Description</TableHead>
+              <TableHead>Título</TableHead>
+              <TableHead>Descrição</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Due Date</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="w-[70px]">Actions</TableHead>
+              <TableHead>Data de Entrega</TableHead>
+              <TableHead>Criado em</TableHead>
+              <TableHead className="w-[70px]">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center">
-                  Loading tasks...
+                  Carregando tarefas...
                 </TableCell>
               </TableRow>
             ) : tasks.length === 0 ? (
@@ -108,7 +103,7 @@ export function TaskTable({
                   colSpan={6}
                   className="text-center text-muted-foreground"
                 >
-                  No tasks found
+                  Nenhuma tarefa encontrada
                 </TableCell>
               </TableRow>
             ) : (
@@ -131,14 +126,14 @@ export function TaskTable({
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => onEdit(task)}>
                           <Pencil className="h-4 w-4 mr-2" />
-                          Edit
+                          Editar
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => onDelete(task)}
                           className="text-destructive"
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
-                          Delete
+                          Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -148,7 +143,6 @@ export function TaskTable({
             )}
           </TableBody>
         </Table>
-        {/* )} */}
       </CardContent>
     </Card>
   );

@@ -36,9 +36,9 @@ type EditTaskDialogProps = {
 };
 
 const statusOptions = [
-  { value: "todo", label: "To Do" },
-  { value: "in-progress", label: "In Progress" },
-  { value: "completed", label: "Completed" },
+  { value: "todo", label: "A Fazer" },
+  { value: "in-progress", label: "Em Progresso" },
+  { value: "completed", label: "Concluído" },
 ];
 
 export function EditTaskDialog({
@@ -53,30 +53,32 @@ export function EditTaskDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Task</DialogTitle>
-          <DialogDescription>Update the task details below.</DialogDescription>
+          <DialogTitle>Editar Tarefa</DialogTitle>
+          <DialogDescription>
+            Atualize os detalhes da tarefa abaixo.
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div>
-            <Label htmlFor="edit-title">Title</Label>
+            <Label htmlFor="edit-title">Título</Label>
             <Input
               id="edit-title"
               value={formData.title}
               onChange={(e) =>
                 onFormDataChange({ ...formData, title: e.target.value })
               }
-              placeholder="Enter task title"
+              placeholder="Digite o título da tarefa"
             />
           </div>
           <div>
-            <Label htmlFor="edit-description">Description</Label>
+            <Label htmlFor="edit-description">Descrição</Label>
             <Textarea
               id="edit-description"
               value={formData.description}
               onChange={(e) =>
                 onFormDataChange({ ...formData, description: e.target.value })
               }
-              placeholder="Enter task description"
+              placeholder="Digite a descrição da tarefa"
               rows={3}
             />
           </div>
@@ -89,7 +91,7 @@ export function EditTaskDialog({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select status" />
+                <SelectValue placeholder="Selecione o status" />
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map((option) => (
@@ -103,13 +105,13 @@ export function EditTaskDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             onClick={onSubmit}
             disabled={!formData.title.trim() || isSubmitting}
           >
-            {isSubmitting ? "Updating..." : "Update Task"}
+            {isSubmitting ? "Atualizando..." : "Atualizar Tarefa"}
           </Button>
         </DialogFooter>
       </DialogContent>

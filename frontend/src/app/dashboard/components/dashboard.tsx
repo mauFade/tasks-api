@@ -61,11 +61,11 @@ const Dashboard = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setIsCreateDialogOpen(false);
       setFormData({ title: "", description: "", status: "todo" });
-      toast.success("Task created successfully");
+      toast.success("Tarefa criada com sucesso");
     },
     onError: (error: Error) => {
       console.error("Failed to create task:", error);
-      toast.error("Failed to create task. Please try again.");
+      toast.error("Falha ao criar tarefa. Por favor, tente novamente.");
     },
   });
 
@@ -83,11 +83,11 @@ const Dashboard = () => {
       setIsEditDialogOpen(false);
       setSelectedTask(null);
       setFormData({ title: "", description: "", status: "todo" });
-      toast.success("Task updated successfully");
+      toast.success("Tarefa atualizada com sucesso");
     },
     onError: (error: Error) => {
       console.error("Failed to update task:", error);
-      toast.error("Failed to update task. Please try again.");
+      toast.error("Falha ao atualizar tarefa. Por favor, tente novamente.");
     },
   });
 
@@ -99,11 +99,11 @@ const Dashboard = () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       setIsDeleteDialogOpen(false);
       setSelectedTask(null);
-      toast.success("Task deleted successfully");
+      toast.success("Tarefa excluída com sucesso");
     },
     onError: (error: Error) => {
       console.error("Failed to delete task:", error);
-      toast.error("Failed to delete task. Please try again.");
+      toast.error("Falha ao excluir tarefa. Por favor, tente novamente.");
     },
   });
 
@@ -158,9 +158,9 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Task Dashboard</h1>
+            <h1 className="text-3xl font-bold">Painel de Tarefas</h1>
             <p className="text-muted-foreground">
-              Manage and track your tasks efficiently
+              Gerencie e acompanhe suas tarefas de forma eficiente
             </p>
           </div>
           <CreateTaskDialog

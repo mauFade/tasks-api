@@ -38,9 +38,9 @@ type CreateTaskDialogProps = {
 };
 
 const statusOptions = [
-  { value: "todo", label: "To Do" },
-  { value: "in-progress", label: "In Progress" },
-  { value: "completed", label: "Completed" },
+  { value: "todo", label: "A Fazer" },
+  { value: "in-progress", label: "Em Progresso" },
+  { value: "completed", label: "Concluído" },
 ];
 
 export function CreateTaskDialog({
@@ -56,37 +56,37 @@ export function CreateTaskDialog({
       <DialogTrigger asChild>
         <Button>
           <Plus className="h-4 w-4 mr-2" />
-          Create Task
+          Criar Tarefa
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Task</DialogTitle>
+          <DialogTitle>Criar Nova Tarefa</DialogTitle>
           <DialogDescription>
-            Add a new task to your dashboard. Fill in the details below.
+            Adicione uma nova tarefa ao seu painel. Preencha os detalhes abaixo.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div>
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">Título</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) =>
                 onFormDataChange({ ...formData, title: e.target.value })
               }
-              placeholder="Enter task title"
+              placeholder="Digite o título da tarefa"
             />
           </div>
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Descrição</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) =>
                 onFormDataChange({ ...formData, description: e.target.value })
               }
-              placeholder="Enter task description"
+              placeholder="Digite a descrição da tarefa"
               rows={3}
             />
           </div>
@@ -99,7 +99,7 @@ export function CreateTaskDialog({
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select status" />
+                <SelectValue placeholder="Selecione o status" />
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map((option) => (
@@ -113,13 +113,13 @@ export function CreateTaskDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button
             onClick={onSubmit}
             disabled={!formData.title.trim() || isSubmitting}
           >
-            {isSubmitting ? "Creating..." : "Create Task"}
+            {isSubmitting ? "Criando..." : "Criar Tarefa"}
           </Button>
         </DialogFooter>
       </DialogContent>
