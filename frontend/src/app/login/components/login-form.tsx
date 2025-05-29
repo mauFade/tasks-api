@@ -1,5 +1,6 @@
 "use client";
 
+import { api } from "@/api/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,8 +18,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { AtSign, KeyRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -29,6 +33,8 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
+  const router = useRouter();
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -37,8 +43,19 @@ const LoginForm = () => {
     },
   });
 
+  const { mutate } = useMutation({
+    mutationFn: (data: LoginFormData) => api.login(data),
+    onSuccess: () => {
+      toast.success("Login realizado com sucesso");
+      router.push("/dashboard");
+    },
+    onError: () => {
+      toast.error("Erro ao fazer login");
+    },
+  });
+
   const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -99,7 +116,7 @@ const LoginForm = () => {
           </CardContent>
           <CardFooter>
             <Button
-              className="w-full font-medium group"
+              className="w-full font-medium group hover:cursor-pointer"
               type="submit"
               size="lg"
             >
