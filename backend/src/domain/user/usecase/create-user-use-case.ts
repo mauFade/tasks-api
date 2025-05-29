@@ -1,6 +1,14 @@
 import { IBCryptRepository } from "../../../infra/bcrypt/model";
-import { CreateUserResponseDTO, IUser } from "../dto";
+import { IUser } from "../dto";
 import { IUserRepository } from "../model/user-repository-interface";
+import jwt from "jsonwebtoken";
+
+interface ResponseInterface {
+  id: string;
+  email: string;
+  name: string;
+  token: string;
+}
 
 export class CreateUserUsecase {
   private readonly userRepository: IUserRepository;
@@ -21,7 +29,7 @@ export class CreateUserUsecase {
     return new CreateUserUsecase(userRepository, bCryptAdapter);
   }
 
-  public async execute(data: IUser): Promise<CreateUserResponseDTO> {
+  public async execute(data: IUser): Promise<ResponseInterface> {
     const hashedPassword = await this.bCryptAdapter.create(data.password);
 
     const user = await this.userRepository.create({
@@ -29,10 +37,27 @@ export class CreateUserUsecase {
       password: hashedPassword,
     });
 
+    const tokenValidator = await this.bCryptAdapter.create("authentication");
+
+    const token = jwt.sign(
+      {
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+        tokenValidator,
+      },
+      "user-auth",
+      {
+        expiresIn: "1d",
+      }
+    );
+
     return {
       id: user.id,
       email: user.email,
       name: user.name,
+      token,
     };
   }
 }
