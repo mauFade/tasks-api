@@ -1,25 +1,33 @@
 import React from "react";
 import LoginForm from "./components/login-form";
+import { LockKeyhole } from "lucide-react";
+import Link from "next/link";
 
 const LoginPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground">
-            Entre na sua conta
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            Ou{" "}
-            <a
-              href="/signup"
-              className="font-medium text-primary hover:text-primary/80"
-            >
-              crie uma nova conta
-            </a>
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <div className="w-full max-w-md">
+        <div className="flex flex-col items-center mb-8">
+          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+            <LockKeyhole className="h-6 w-6 text-primary" />
+          </div>
+          <h1 className="text-3xl font-bold text-center">Login</h1>
+          <p className="text-muted-foreground text-center mt-2">
+            Entre com suas credenciais para acessar sua conta
           </p>
         </div>
+
         <LoginForm />
+
+        <p className="text-sm text-muted-foreground text-center mt-6">
+          Não tem uma conta?{" "}
+          <Link
+            href="/register"
+            className="text-primary font-medium hover:underline transition-colors"
+          >
+            Registre-se
+          </Link>
+        </p>
       </div>
     </div>
   );

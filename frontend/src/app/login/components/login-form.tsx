@@ -4,104 +4,110 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Loader2, Lock, Mail } from "lucide-react";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AtSign, KeyRound } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().email("Email inválido"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  // const router = useRouter();
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  // const loginMutation = useMutation({
-  //   mutationFn: loginUser,
-  //   onSuccess: (data) => {
-  //     console.log("Login realizado com sucesso:", data)
-  //     // Aqui você pode salvar o token no localStorage ou cookies
-  //     localStorage.setItem("token", data.token)
-  //     router.push("/dashboard")
-  //   },
-  //   onError: (error: any) => {
-  //     console.error("Erro no login:", error)
-  //   },
-  // })
-
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault()
-  //   loginMutation.mutate({ email, password })
-  // }
+  const onSubmit = (data: LoginFormData) => {
+    console.log(data);
+  };
 
   return (
-    <Card className="w-full">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-center">Login</CardTitle>
-        <CardDescription className="text-center">
-          Digite seu email e senha para acessar sua conta
-        </CardDescription>
+    <Card className="border-border/40 shadow-lg">
+      <CardHeader className="pb-4 space-y-1">
+        <h2 className="text-xl font-semibold text-center">
+          Bem-vindo de volta
+        </h2>
+        <p className="text-sm text-muted-foreground text-center">
+          Insira seus dados para acessar sua conta
+        </p>
       </CardHeader>
-      <form onSubmit={() => {}}>
-        <CardContent className="space-y-4">
-          {/* {loginMutation.isError && (
-            <Alert variant="destructive">
-              <AlertDescription>
-                {loginMutation.error?.message || "Erro ao fazer login. Verifique suas credenciais."}
-              </AlertDescription>
-            </Alert>
-          )} */}
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="email"
-                type="email"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pl-10"
-                required
-              />
-            </div>
-          </div>
-        </CardContent>
-
-        <CardFooter>
-          <Button type="submit" className="w-full" disabled={false}>
-            {/* {loginMutation.isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Entrando...
-              </>
-            ) : ( */}
-            Entrar
-            {/* )} */}
-          </Button>
-        </CardFooter>
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <CardContent className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-foreground/80">Email</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="seu.email@exemplo.com"
+                        className="pl-10"
+                        {...field}
+                      />
+                    </FormControl>
+                    <AtSign className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-foreground/80">Senha</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        className="pl-10"
+                        {...field}
+                      />
+                    </FormControl>
+                    <KeyRound className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full font-medium group"
+              type="submit"
+              size="lg"
+            >
+              Fazer Login
+            </Button>
+          </CardFooter>
+        </form>
+      </Form>
     </Card>
   );
 };
