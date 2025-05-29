@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { setCookie } from "cookies-next/client";
 import { AtSign, KeyRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -45,8 +46,9 @@ const LoginForm = () => {
 
   const { mutate } = useMutation({
     mutationFn: (data: LoginFormData) => api.login(data),
-    onSuccess: () => {
+    onSuccess: ({ token }) => {
       toast.success("Login realizado com sucesso");
+      setCookie("token", token);
       router.push("/dashboard");
     },
     onError: () => {

@@ -29,6 +29,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "@/api/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next/client";
 
 const signupSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -52,8 +53,9 @@ export function SignupForm() {
 
   const { mutate } = useMutation({
     mutationFn: (data: SignupFormData) => api.signup(data),
-    onSuccess: () => {
+    onSuccess: ({ token }) => {
       toast.success("Conta criada com sucesso");
+      setCookie("token", token);
       router.push("/dashboard");
     },
     onError: () => {

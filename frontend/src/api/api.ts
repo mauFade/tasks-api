@@ -1,10 +1,19 @@
 import axios from "axios";
+import { getCookie } from "cookies-next/client";
 
 class Api {
   private baseUrl: string;
 
   constructor() {
     this.baseUrl = "http://localhost:8081";
+
+    axios.interceptors.request.use((config) => {
+      const token = getCookie("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
   }
 
   public async signup(data: {
@@ -96,7 +105,12 @@ class Api {
     createdAt: string;
     updatedAt: string;
   }> {
-    const response = await axios.put(`${this.baseUrl}/tasks/${data.id}`, data);
+    const response = await axios.put(`${this.baseUrl}/tasks/${data.id}`, {
+      title: data.title,
+      description: data.description,
+      status: data.status,
+    });
+
     return response.data;
   }
 
